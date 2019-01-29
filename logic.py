@@ -4,6 +4,10 @@ import numpy as np
 
 
 def add_two_or_four(mat):
+    """
+    :param mat: the board
+    :return: the board with a randomly generated 2 or 4 in an empty tile
+    """
     zeros = np.argwhere(mat == 0)
     if zeros.any():
         zero_tile = random.choice(zeros)
@@ -16,6 +20,10 @@ def add_two_or_four(mat):
 
 
 def game_state(mat):
+    """
+    :param mat: a matrix representing the board
+    :return: the state of the game
+    """
     for i in range(3):  # intentionally reduced to check the row on the right and below
         for j in range(3):  # more elegant to use exceptions but most likely this will be their solution
             if mat[i][j] == mat[i + 1][j] or mat[i][j + 1] == mat[i][j]:

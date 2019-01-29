@@ -9,12 +9,12 @@ from selenium.webdriver.common.keys import Keys
 import logic
 from puzzle import Game
 
-LAST_INDEX = 0
-know_boards = {}
 sim_nb = 100
 
 def start_web_game():
-    global LAST_INDEX
+    """
+    Open the browser, parse the board and hit the best arrow !
+    """
     browser = webdriver.Chrome('/Users/lucasberbesson/Downloads/chromedriver')
     browser.get('https://gabrielecirulli.github.io/2048/')
 
@@ -28,6 +28,9 @@ def start_web_game():
 
 
 def get_score(board, first_move):
+    """
+    Given a board and a first_move, get a score by playing a lot of random games
+    """
     sboard = board.copy()
     sboard, moved, score = logic.move(sboard, first_move)
     if not moved:
@@ -47,12 +50,18 @@ def get_score(board, first_move):
 
 
 def get_best_input(board):
+    """
+    Should I move the board left, right, up or down ?
+    """
     with Pool(4) as p:
         results = p.starmap(get_score, [(board, 0), (board, 1), (board, 2), (board, 3)])
     return results.index(max(results))
 
 
 def parse_tile_array(html_board):
+    """
+    Scrap the state of the board on the webpage
+    """
     board = np.zeros((4, 4))
     pattern = re.compile('tile-(?P<value>\d+) tile-position-(?P<x>\d)-(?P<y>\d)')
     for tile in pattern.finditer(html_board):
@@ -63,6 +72,11 @@ def parse_tile_array(html_board):
 
 
 def export_matrix(matrix):
+    """
+    Save final board as csv file
+    :param matrix:
+    :return:
+    """
     export = "{}, ".format(sim_nb)
     for i in range(4):
         for j in range(4):
