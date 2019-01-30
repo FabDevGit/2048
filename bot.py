@@ -9,13 +9,14 @@ from selenium.webdriver.common.keys import Keys
 import logic
 from puzzle import Game
 
-sim_nb = 100
+SIMULATION_NUMBER = 100
+CHROME_PATH = '/Users/lucasberbesson/Downloads/chromedriver'
 
 def start_web_game():
     """
     Open the browser, parse the board and hit the best arrow !
     """
-    browser = webdriver.Chrome('/Users/lucasberbesson/Downloads/chromedriver')
+    browser = webdriver.Chrome(CHROME_PATH)
     browser.get('https://gabrielecirulli.github.io/2048/')
 
     grid = browser.find_element_by_tag_name('body')
@@ -36,7 +37,7 @@ def get_score(board, first_move):
     if not moved:
         return -1
     total_score = 0
-    for i in range(sim_nb):
+    for i in range(SIMULATION_NUMBER):
         game_score = score
         simulation_board = sboard.copy()
         simulation_board = logic.add_two_or_four(simulation_board)
@@ -46,7 +47,7 @@ def get_score(board, first_move):
                 simulation_board = logic.add_two_or_four(simulation_board)
             game_score += move_score
         total_score += game_score
-    return total_score / sim_nb
+    return total_score / SIMULATION_NUMBER
 
 
 def get_best_input(board):
@@ -77,7 +78,7 @@ def export_matrix(matrix):
     :param matrix:
     :return:
     """
-    export = "{}, ".format(sim_nb)
+    export = "{}, ".format(SIMULATION_NUMBER)
     for i in range(4):
         for j in range(4):
             export += "{},".format(int(matrix[i][j]))
