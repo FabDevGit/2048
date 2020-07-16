@@ -5,3 +5,5 @@ To run the bot :
 2. Update `SIMULATION_NUMBER` and `CHROME_PATH` variables in `bot.py`
 3. Launch the bot : `python bot.py`
 4. wait for a high score
+
+Related article : https://fabdev.fr/articles/2048-ai/
